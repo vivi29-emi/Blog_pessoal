@@ -55,18 +55,10 @@ public class UsuarioController {
 			.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
 	}
 	@PostMapping("/cadastrar")
-	public ResponseEntity<String> postUsuario(@Valid @RequestBody Usuario usuario) {
-		
-		if(UsuarioService.existsById(usuario.getUsuario().get())) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflito: Dados já consta registro!");
-		}
-		else {
-			return usuarioService.cadastrarUsuario(usuario)
-					.map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
-					.orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
-			
-		}
-			
+    public ResponseEntity<Usuario> postUsuario(@Valid @RequestBody Usuario usuario) {
+        return usuarioService.cadastrarUsuario(usuario)
+            .map(resposta -> ResponseEntity.status(HttpStatus.CREATED).body(resposta))
+            .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
 		
 
 	}
