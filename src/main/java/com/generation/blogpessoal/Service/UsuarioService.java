@@ -3,14 +3,16 @@ package com.generation.blogpessoal.Service;
 import java.nio.charset.Charset;
 import java.util.Optional;
 
+import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import com.generation.blogpessoal.model.Usuario;
 import com.generation.blogpessoal.model.UsuarioLogin;
 import com.generation.blogpessoal.repository.UsuarioRepository;
-
-import org.apache.commons.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
 
 
 
@@ -34,20 +36,21 @@ public class UsuarioService {
 		
 	}
 	
-	public Optional<Usuario> atualizarUsuario(Usuario usuario){
-		
-		if(usuarioRepository.findById(usuario.getId()).isPresent()) {
-			
-			usuario.setSenha(criptografarSenha(usuario.getSenha()));
-			
-			return Optional.ofNullable(usuarioRepository.save(usuario));
-		}
-		
-		return Optional.empty();
-		
-		
-	}
 	
+	public Optional<Usuario> atualizarUsuario(Usuario usuario) {
+		Optional<Usuario> buscarUsuario = usuarioRepository.findByUsuario(usuario.getUsuario());
+		
+		if (usuarioRepository.findById(usuario.getId()).isPresent()) {
+			if (buscarUsuario.isPresent() && usuario.getUsuario() != buscarUsuario.get().getUsuario())
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "E-mail já em uso", null);
+			usuario.setSenha(criptografarSenha(usuario.getSenha()));
+			return Optional.ofNullable(usuarioRepository.save(usuario));
+			
+		}
+		return Optional.empty();
+	}
+		
+		
 	public Optional<UsuarioLogin> autenticarUsuario(Optional<UsuarioLogin> usuarioLogin){
 		
 		Optional<Usuario> usuario = usuarioRepository.findByUsuario(usuarioLogin.get().getUsuario());
@@ -63,11 +66,14 @@ public class UsuarioService {
 				
 				return usuarioLogin;
 			}
+			
 		}
 		
 		return Optional.empty();
 	}
 	
+	
+
 	private String criptografarSenha(String senha){
 		
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -90,7 +96,7 @@ public class UsuarioService {
 		byte[] tokenBase64 = Base64.encodeBase64(token.getBytes(Charset.forName("US-ASCII")));
 		return "Basic " + new String(tokenBase64);
 	}
-	
+
 	
 	
 
