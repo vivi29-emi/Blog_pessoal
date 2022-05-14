@@ -15,7 +15,7 @@ versões antigas do JUnit.
 - [x] Criei o teste para a classe Repository Usuario.
 - [x] Criei o teste para a classe Controller Usuario.
 - [x] Executei todos os testes no JUnit.
-- [x] Experimente mudar os parâmetros dos testes e testei com erro.
+- [x] Experimentei mudar os parâmetros dos testes e testei com erro.
 
 
 
