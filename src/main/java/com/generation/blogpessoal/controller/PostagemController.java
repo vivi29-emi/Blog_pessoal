@@ -1,5 +1,7 @@
 package com.generation.blogpessoal.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,6 +49,16 @@ public class PostagemController
 			.orElse(ResponseEntity.notFound().build());     //<-- caso não encontre ele vai imprimir a resposta Not body return...
    }
    
+   // buscar a data final e inicial
+   @GetMapping("/data_inicial/{inicio}/data_final/{fim}")
+	public ResponseEntity<List<Postagem>> getByDataIntervalo(@PathVariable String inicio, @PathVariable String fim){
+		
+		LocalDate data_start = LocalDate.parse(inicio, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		LocalDate data_end = LocalDate.parse(fim, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		
+		return ResponseEntity.ok(postagemRepository.findByDataBetween(data_start,data_end));
+	}
+   
    
    
 // função lambida = select * from tb_postagens where titulo like %titulo%
@@ -93,6 +105,7 @@ public class PostagemController
 			postagemRepository.deleteById(id);    // <-- Chama  o método  postagemRepository.
 			  
 		}
+   
 		
 		   
 
