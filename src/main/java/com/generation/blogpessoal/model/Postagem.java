@@ -1,6 +1,7 @@
 package com.generation.blogpessoal.model;
 
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity // criando tb
@@ -31,11 +33,12 @@ public class Postagem
 	private String titulo ;
 	
 	@NotNull(message="O atributo é obrigatório!") 
-	@Size(min=10, max=1000,message="O atributo texto deve conter 10  e no máximo 1000 carácteres")
+	@Size(max=1000,message="O atributo texto deve conter 10  e no máximo 1000 carácteres")
 	private String texto ;
 	
+	@JsonFormat(pattern="yyyy-MM-dd")
 	@UpdateTimestamp// pega a data e a hora da ultima atualização com o servidor e atualiza o create atualiza de acordo com o dia que foi criado a postagem.
-	private LocalDateTime data;
+	private LocalDate data;
 	
 	@ManyToOne
 	@JsonIgnoreProperties("postagem")
@@ -91,15 +94,15 @@ public class Postagem
 		this.texto = texto;
 	}
 
-	public LocalDateTime getData() 
-	{
+	public LocalDate getData() {
 		return data;
 	}
 
-	public void setData(LocalDateTime data)
-	{
+	public void setData(LocalDate data) {
 		this.data = data;
 	}
+	
+
 	
 	
 
