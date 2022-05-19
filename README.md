@@ -1,6 +1,7 @@
-# Back-end
+# Back-end 
 
-Back-end do projeto
+<h2>Processo da implementação das camadas para a segurança, testes e o deploy<\h2>
+
 - [x] Criei a Camada Model, repository, controler, service das Tabela Temas,Postagens,Usuario.
 - [x] Criei a camada Usuario Login.
 - [x] Editado o Pom.xml, com as dependências para a segurança do projeto e para o deploy.
