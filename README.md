@@ -1,6 +1,8 @@
 # Back-end 
 
-Processo da implementação das camadas para a segurança, testes e o deploy
+ <h1> Processo da implementação das camadas para a segurança, testes e o deploy
+  
+  <br>
 
 - [x] Criei a Camada Model, repository, controler, service das Tabela Temas,Postagens,Usuario.
 - [x] Criei a camada Usuario Login.
@@ -17,7 +19,7 @@ Processo da implementação das camadas para a segurança, testes e o deploy
 
 <br>
 <h3 align="center">
-DER: Modelo de Entidade-Relacionamento nessa Task:
+DER: Modelo de Entidade-Relacionamento :
   
 ```mermaid
 classDiagram
