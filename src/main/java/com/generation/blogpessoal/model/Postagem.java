@@ -3,6 +3,7 @@ package com.generation.blogpessoal.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,10 +37,16 @@ public class Postagem
 	@Size(max=1000,message="O atributo texto deve conter 10  e no máximo 1000 carácteres")
 	private String texto ;
 	
+	private String midia;
+	
 	@JsonFormat(pattern="yyyy-MM-dd")
 	@UpdateTimestamp// pega a data e a hora da ultima atualização com o servidor e atualiza o create atualiza de acordo com o dia que foi criado a postagem.
 	private LocalDate data;
 	
+	@Column(columnDefinition = "integer default 0")
+	private int curtir;
+	
+	//relacionamentos
 	@ManyToOne
 	@JsonIgnoreProperties("postagem")
 	private Tema tema;
@@ -93,6 +100,14 @@ public class Postagem
 	{
 		this.texto = texto;
 	}
+	
+	public String getMidia() {
+		return midia;
+	}
+
+	public void setMidia(String midia) {
+		this.midia = midia;
+	}
 
 	public LocalDate getData() {
 		return data;
@@ -101,6 +116,16 @@ public class Postagem
 	public void setData(LocalDate data) {
 		this.data = data;
 	}
+
+	public int getCurtir() {
+		return curtir;
+	}
+
+	public void setCurtir(int curtir) {
+		this.curtir = curtir;
+	}
+	
+	
 	
 
 	

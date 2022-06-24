@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.generation.blogpessoal.Service.PostagemService;
 import com.generation.blogpessoal.model.Postagem;
 import com.generation.blogpessoal.repository.PostagemRepository;
+
 
 
 @RestController
@@ -33,6 +35,9 @@ public class PostagemController
 {
    @Autowired 	// <-- injeção de dependencia = transferencia de responsabilidade de instancia para o spring e o JPA sendo ele responsável pela a criação.
    private PostagemRepository postagemRepository;    //<-- Objeto da interface postagemRepository.
+   
+   @Autowired
+	private PostagemService postagemService;
    
    @GetMapping
    public ResponseEntity <List<Postagem>> getALL(){
@@ -105,6 +110,16 @@ public class PostagemController
 			postagemRepository.deleteById(id);    // <-- Chama  o método  postagemRepository.
 			  
 		}
+   
+   
+	@PutMapping("/curtir/{id}")
+	public ResponseEntity<Postagem> curtirProdutoId (@PathVariable Long id){
+		
+		return postagemService.curtir(id)
+			.map(resposta-> ResponseEntity.ok(resposta))
+			.orElse(ResponseEntity.badRequest().build());
+	
+	}
    
 		
 		   
